@@ -1,23 +1,30 @@
-#cityContainer {
+
+#ZipContainer {
     display:flex;
     flex-flow: column;
     align-items: center;
 }
 
-#cityContainer div{
+#ZipContainer div{
     border: lightgray solid 2px;
     width: 300px;
     margin:10px;
 }
-#cityContainer div h5{
+#ZipContainer div h5{
     background-color: rgb(235, 235, 235);
     height: 40px;
     padding-left: 10px;
+    padding-top: 5px;
+    border-bottom: lime solid;
 }
 
-#input{
+#ZipInput{
     margin-top: 20px;
     align-items: center;
     display: flex;
     flex-flow: column;
+    padding-top: 2px;
+    background-color: lime;
+    height: 34px;
+    font-weight: bold;
 }

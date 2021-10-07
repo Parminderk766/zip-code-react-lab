@@ -1,35 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
+import ZipCode from './ZipCode.js';
+import CitySearch from './CitySearch';;
 
 
-function City(props) {
-  let data = props.idx;
-  return (<div>
-    <h5>{props.idx["City"]}, {props.idx["State"]}</h5>
-    
-    <ul>
-      <li>State: {data["State"]}</li>
-      <li>Location: ({data["Lat"]}, {data["Long"]})</li>
-      <li>Population (estimated): {data["EstimatedPopulation"]}</li>
-      <li>Total Wages: {data["TotalWages"]}</li>
-    </ul>
-  </div>);
-
-}
-
-
-
-function ZipSearchField(props) {
-  
+function Welcome(props){
   return (
-    <div id="input">
-      <label>
-          Zip Code :   
-          <input type="text" onChange={props.handler} />
-      </label>
+    <div className="App">
+        <div className="App-header">
+            <h2>Welcome</h2>
+        </div>
+        <form id="welcome">
+          <button onClick={props.switch1}>Zip-Search</button>
+          <button onClick={props.switch2}>City-Search</button>
+        </form>
     </div>
-    )
+  )
 }
+
 
 
 class App extends Component {
@@ -37,44 +25,25 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state ={
-      zipValue:"",
-      data:[]
+      welcomeComponent: <Welcome switch1={this.switch1} switch2={this.switch2}/>,
+      component:<Welcome switch1={this.switch1} switch2={this.switch2}/>
     }
   }
-
-  handler=(event)=>{
-
-    this.setState({
-      zipValue: event.target.value
-    });
-
-    console.log(this.state.zipValue);
-
-    fetch(`http://ctp-zip-api.herokuapp.com/zip/${event.target.value}`)
-      .then(res=>res.json())
-      .then(body => {
-        console.log(body);
-        this.setState({
-          data:body
-        })
-
-      })
-
-
+  switch1 =()=> {
+    this.setState({component:<ZipCode goBack={this.goBack}/>})
   }
+  switch2 =()=> {
+    this.setState({component:<CitySearch goBack={this.goBack}/>})
+  }
+  goBack =()=> {
+    this.setState({component: this.state.welcomeComponent})
+  }
+
 
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <h2>Zip Code Search</h2>
-        </div>
-        <ZipSearchField zip={this.state.zipValue} handler={this.handler}/>
-        <div id="cityContainer">
-          {this.state.data.map(ele=>{
-            return <City zip={this.state.zipValue} idx={ele}/>
-          })}
-        </div>
+       {this.state.component}
       </div>
     );
   }
